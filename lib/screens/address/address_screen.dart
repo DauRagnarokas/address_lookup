@@ -22,7 +22,7 @@ class _AddressScreenState extends State<AddressScreen> {
     return Unfocus(
       child: Scaffold(
           appBar: AppBar(
-            title: const Text('Address screen'),
+            title: const Text('Registered Address'),
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
