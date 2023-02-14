@@ -1,0 +1,16 @@
+include: package:flutter_lints/flutter.yaml
+analyzer:
+  exclude:
+    - build/**
+    - lib/**.freezed.dart
+    - lib/**.g.dart
+  errors:
+    invalid_annotation_target: ignore
+
+linter:
+  rules:
+    - use_super_parameters
+    - prefer_single_quotes
+    - avoid_returning_null
+    - avoid_returning_null_for_void
+    - prefer_int_literals
