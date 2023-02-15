@@ -71,7 +71,8 @@ class AddressFormState extends State<AddressForm> {
       FieldProps(
         name: 'municipality',
         label: 'Municipality*',
-        formControl: FormControl<String>(value: '', validators: [Validators.required]),
+        formControl:
+            FormControl<String>(value: '', validators: [Validators.required]),
       ),
       FieldProps(
         name: 'street_address',
@@ -86,8 +87,7 @@ class AddressFormState extends State<AddressForm> {
       FieldProps(
         name: 'apartment',
         label: 'Apartment, suite, unit',
-        formControl:
-            FormControl<String>(value: '', validators: [Validators.required]),
+        formControl: FormControl<String>(value: ''),
       ),
     ];
     form = fb.group(
@@ -119,24 +119,21 @@ class AddressFormState extends State<AddressForm> {
                       const Text(
                           'Please enter information as written on your ID document'),
                       const SizedBox(height: 16),
-                      Form(
-                        key: formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List<Widget>.generate(
-                            fieldsCount,
-                            (index) => index == 0
-                                ? CountryField(fieldProps: fieldsProps[index])
-                                : ReactiveTextField(
-                                    formControlName: fieldsProps[index].name,
-                                    textInputAction: index == fieldsCount - 1
-                                        ? TextInputAction.done
-                                        : TextInputAction.next,
-                                    decoration: InputDecoration(
-                                      labelText: fieldsProps[index].label,
-                                    ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: List<Widget>.generate(
+                          fieldsCount,
+                          (index) => index == 0
+                              ? CountryField(fieldProps: fieldsProps[index])
+                              : ReactiveTextField(
+                                  formControlName: fieldsProps[index].name,
+                                  textInputAction: index == fieldsCount - 1
+                                      ? TextInputAction.done
+                                      : TextInputAction.next,
+                                  decoration: InputDecoration(
+                                    labelText: fieldsProps[index].label,
                                   ),
-                          ),
+                                ),
                         ),
                       ),
                     ],
