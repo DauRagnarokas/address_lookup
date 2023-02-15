@@ -4,7 +4,11 @@ import 'package:flutterassignment/screens/home_screen.dart';
 import 'package:flutterassignment/styles/main_theme.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

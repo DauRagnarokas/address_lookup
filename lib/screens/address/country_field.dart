@@ -7,7 +7,7 @@ import 'package:reactive_flutter_typeahead/reactive_flutter_typeahead.dart';
 class CountryField extends ConsumerWidget {
   final FieldProps fieldProps;
 
-  const CountryField({super.key, required this. fieldProps });
+  const CountryField({super.key, required this.fieldProps});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

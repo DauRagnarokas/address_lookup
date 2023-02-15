@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
+
+@immutable
 class Country {
   final String code;
   final String name;
 
-  Country({required this.code, required this.name});
+  const Country({required this.code, required this.name});
 
   String get flag {
     final int firstLetter = code.codeUnitAt(0) - 0x41 + 0x1F1E6;

@@ -1,987 +1,987 @@
 import '../models/country.dart';
 
 final List<Country> worldCountries = [
-  Country(
+  const Country(
     code: 'AF',
     name: 'Afghanistan',
   ),
-  Country(
+  const Country(
     code: 'AX',
     name: 'Åland Islands',
   ),
-  Country(
+  const Country(
     code: 'AL',
     name: 'Albania',
   ),
-  Country(
+  const Country(
     code: 'DZ',
     name: 'Algeria',
   ),
-  Country(
+  const Country(
     code: 'AS',
     name: 'American Samoa',
   ),
-  Country(
+  const Country(
     code: 'AD',
     name: 'Andorra',
   ),
-  Country(
+  const Country(
     code: 'AO',
     name: 'Angola',
   ),
-  Country(
+  const Country(
     code: 'AI',
     name: 'Anguilla',
   ),
-  Country(
+  const Country(
     code: 'AG',
     name: 'Antigua and Barbuda',
   ),
-  Country(
+  const Country(
     code: 'AR',
     name: 'Argentina',
   ),
-  Country(
+  const Country(
     code: 'AM',
     name: 'Armenia',
   ),
-  Country(
+  const Country(
     code: 'AW',
     name: 'Aruba',
   ),
-  Country(
+  const Country(
     code: 'AC',
     name: 'Ascension Island',
   ),
-  Country(
+  const Country(
     code: 'AU',
     name: 'Australia',
   ),
-  Country(
+  const Country(
     code: 'AT',
     name: 'Austria',
   ),
-  Country(
+  const Country(
     code: 'AZ',
     name: 'Azerbaijan',
   ),
-  Country(
+  const Country(
     code: 'BS',
     name: 'Bahamas',
   ),
-  Country(
+  const Country(
     code: 'BH',
     name: 'Bahrain',
   ),
-  Country(
+  const Country(
     code: 'BD',
     name: 'Bangladesh',
   ),
-  Country(
+  const Country(
     code: 'BB',
     name: 'Barbados',
   ),
-  Country(
+  const Country(
     code: 'BY',
     name: 'Belarus',
   ),
-  Country(
+  const Country(
     code: 'BE',
     name: 'Belgium',
   ),
-  Country(
+  const Country(
     code: 'BZ',
     name: 'Belize',
   ),
-  Country(
+  const Country(
     code: 'BJ',
     name: 'Benin',
   ),
-  Country(
+  const Country(
     code: 'BM',
     name: 'Bermuda',
   ),
-  Country(
+  const Country(
     code: 'BT',
     name: 'Bhutan',
   ),
-  Country(
+  const Country(
     code: 'BO',
     name: 'Bolivia',
   ),
-  Country(
+  const Country(
     code: 'BA',
     name: 'Bosnia and Herzegovina',
   ),
-  Country(
+  const Country(
     code: 'BW',
     name: 'Botswana',
   ),
-  Country(
+  const Country(
     code: 'BR',
     name: 'Brazil',
   ),
-  Country(
+  const Country(
     code: 'IO',
     name: 'British Indian Ocean Territory',
   ),
-  Country(
+  const Country(
     code: 'VG',
     name: 'British Virgin Islands',
   ),
-  Country(
+  const Country(
     code: 'BN',
     name: 'Brunei',
   ),
-  Country(
+  const Country(
     code: 'BG',
     name: 'Bulgaria',
   ),
-  Country(
+  const Country(
     code: 'BF',
     name: 'Burkina Faso',
   ),
-  Country(
+  const Country(
     code: 'BI',
     name: 'Burundi',
   ),
-  Country(
+  const Country(
     code: 'KH',
     name: 'Cambodia',
   ),
-  Country(
+  const Country(
     code: 'CM',
     name: 'Cameroon',
   ),
-  Country(
+  const Country(
     code: 'CA',
     name: 'Canada',
   ),
-  Country(
+  const Country(
     code: 'CV',
     name: 'Cape Verde',
   ),
-  Country(
+  const Country(
     code: 'BQ',
     name: 'Caribbean Netherlands',
   ),
-  Country(
+  const Country(
     code: 'KY',
     name: 'Cayman Islands',
   ),
-  Country(
+  const Country(
     code: 'CF',
     name: 'Central African Republic',
   ),
-  Country(
+  const Country(
     code: 'TD',
     name: 'Chad',
   ),
-  Country(
+  const Country(
     code: 'CL',
     name: 'Chile',
   ),
-  Country(
+  const Country(
     code: 'CN',
     name: 'China',
   ),
-  Country(
+  const Country(
     code: 'CX',
     name: 'Christmas Island',
   ),
-  Country(
+  const Country(
     code: 'CC',
     name: 'Cocos [Keeling] Islands',
   ),
-  Country(
+  const Country(
     code: 'CO',
     name: 'Colombia',
   ),
-  Country(
+  const Country(
     code: 'KM',
     name: 'Comoros',
   ),
-  Country(
+  const Country(
     code: 'CD',
     name: 'Democratic Republic Congo',
   ),
-  Country(
+  const Country(
     code: 'CG',
     name: 'Republic of Congo',
   ),
-  Country(
+  const Country(
     code: 'CK',
     name: 'Cook Islands',
   ),
-  Country(
+  const Country(
     code: 'CR',
     name: 'Costa Rica',
   ),
-  Country(
+  const Country(
     code: 'CI',
     name: 'Côte d\'Ivoire',
   ),
-  Country(
+  const Country(
     code: 'HR',
     name: 'Croatia',
   ),
-  Country(
+  const Country(
     code: 'CU',
     name: 'Cuba',
   ),
-  Country(
+  const Country(
     code: 'CW',
     name: 'Curaçao',
   ),
-  Country(
+  const Country(
     code: 'CY',
     name: 'Cyprus',
   ),
-  Country(
+  const Country(
     code: 'CZ',
     name: 'Czech Republic',
   ),
-  Country(
+  const Country(
     code: 'DK',
     name: 'Denmark',
   ),
-  Country(
+  const Country(
     code: 'DJ',
     name: 'Djibouti',
   ),
-  Country(
+  const Country(
     code: 'DM',
     name: 'Dominica',
   ),
-  Country(
+  const Country(
     code: 'DO',
     name: 'Dominican Republic',
   ),
-  Country(
+  const Country(
     code: 'TL',
     name: 'East Timor',
   ),
-  Country(
+  const Country(
     code: 'EC',
     name: 'Ecuador',
   ),
-  Country(
+  const Country(
     code: 'EG',
     name: 'Egypt',
   ),
-  Country(
+  const Country(
     code: 'SV',
     name: 'El Salvador',
   ),
-  Country(
+  const Country(
     code: 'GQ',
     name: 'Equatorial Guinea',
   ),
-  Country(
+  const Country(
     code: 'ER',
     name: 'Eritrea',
   ),
-  Country(
+  const Country(
     code: 'EE',
     name: 'Estonia',
   ),
-  Country(
+  const Country(
     code: 'SZ',
     name: 'Eswatini',
   ),
-  Country(
+  const Country(
     code: 'ET',
     name: 'Ethiopia',
   ),
-  Country(
+  const Country(
     code: 'FK',
     name: 'Falkland Islands [Islas Malvinas]',
   ),
-  Country(
+  const Country(
     code: 'FO',
     name: 'Faroe Islands',
   ),
-  Country(
+  const Country(
     code: 'FJ',
     name: 'Fiji',
   ),
-  Country(
+  const Country(
     code: 'FI',
     name: 'Finland',
   ),
-  Country(
+  const Country(
     code: 'FR',
     name: 'France',
   ),
-  Country(
+  const Country(
     code: 'GF',
     name: 'French Guiana',
   ),
-  Country(
+  const Country(
     code: 'PF',
     name: 'French Polynesia',
   ),
-  Country(
+  const Country(
     code: 'GA',
     name: 'Gabon',
   ),
-  Country(
+  const Country(
     code: 'GM',
     name: 'Gambia',
   ),
-  Country(
+  const Country(
     code: 'GE',
     name: 'Georgia',
   ),
-  Country(
+  const Country(
     code: 'DE',
     name: 'Germany',
   ),
-  Country(
+  const Country(
     code: 'GH',
     name: 'Ghana',
   ),
-  Country(
+  const Country(
     code: 'GI',
     name: 'Gibraltar',
   ),
-  Country(
+  const Country(
     code: 'GR',
     name: 'Greece',
   ),
-  Country(
+  const Country(
     code: 'GL',
     name: 'Greenland',
   ),
-  Country(
+  const Country(
     code: 'GD',
     name: 'Grenada',
   ),
-  Country(
+  const Country(
     code: 'GP',
     name: 'Guadeloupe',
   ),
-  Country(
+  const Country(
     code: 'GU',
     name: 'Guam',
   ),
-  Country(
+  const Country(
     code: 'GT',
     name: 'Guatemala',
   ),
-  Country(
+  const Country(
     code: 'GG',
     name: 'Guernsey',
   ),
-  Country(
+  const Country(
     code: 'GN',
     name: 'Guinea Conakry',
   ),
-  Country(
+  const Country(
     code: 'GW',
     name: 'Guinea-Bissau',
   ),
-  Country(
+  const Country(
     code: 'GY',
     name: 'Guyana',
   ),
-  Country(
+  const Country(
     code: 'HT',
     name: 'Haiti',
   ),
-  Country(
+  const Country(
     code: 'HM',
     name: 'Heard Island and McDonald Islands',
   ),
-  Country(
+  const Country(
     code: 'HN',
     name: 'Honduras',
   ),
-  Country(
+  const Country(
     code: 'HK',
     name: 'Hong Kong',
   ),
-  Country(
+  const Country(
     code: 'HU',
     name: 'Hungary',
   ),
-  Country(
+  const Country(
     code: 'IS',
     name: 'Iceland',
   ),
-  Country(
+  const Country(
     code: 'IN',
     name: 'India',
   ),
-  Country(
+  const Country(
     code: 'ID',
     name: 'Indonesia',
   ),
-  Country(
+  const Country(
     code: 'IR',
     name: 'Iran',
   ),
-  Country(
+  const Country(
     code: 'IQ',
     name: 'Iraq',
   ),
-  Country(
+  const Country(
     code: 'IE',
     name: 'Ireland',
   ),
-  Country(
+  const Country(
     code: 'IM',
     name: 'Isle of Man',
   ),
-  Country(
+  const Country(
     code: 'IL',
     name: 'Israel',
   ),
-  Country(
+  const Country(
     code: 'IT',
     name: 'Italy',
   ),
-  Country(
+  const Country(
     code: 'JM',
     name: 'Jamaica',
   ),
-  Country(
+  const Country(
     code: 'JP',
     name: 'Japan',
   ),
-  Country(
+  const Country(
     code: 'JE',
     name: 'Jersey',
   ),
-  Country(
+  const Country(
     code: 'JO',
     name: 'Jordan',
   ),
-  Country(
+  const Country(
     code: 'KZ',
     name: 'Kazakhstan',
   ),
-  Country(
+  const Country(
     code: 'KE',
     name: 'Kenya',
   ),
-  Country(
+  const Country(
     code: 'KI',
     name: 'Kiribati',
   ),
-  Country(
+  const Country(
     code: 'XK',
     name: 'Kosovo',
   ),
-  Country(
+  const Country(
     code: 'KW',
     name: 'Kuwait',
   ),
-  Country(
+  const Country(
     code: 'KG',
     name: 'Kyrgyzstan',
   ),
-  Country(
+  const Country(
     code: 'LA',
     name: 'Laos',
   ),
-  Country(
+  const Country(
     code: 'LV',
     name: 'Latvia',
   ),
-  Country(
+  const Country(
     code: 'LB',
     name: 'Lebanon',
   ),
-  Country(
+  const Country(
     code: 'LS',
     name: 'Lesotho',
   ),
-  Country(
+  const Country(
     code: 'LR',
     name: 'Liberia',
   ),
-  Country(
+  const Country(
     code: 'LY',
     name: 'Libya',
   ),
-  Country(
+  const Country(
     code: 'LI',
     name: 'Liechtenstein',
   ),
-  Country(
+  const Country(
     code: 'LT',
     name: 'Lithuania',
   ),
-  Country(
+  const Country(
     code: 'LU',
     name: 'Luxembourg',
   ),
-  Country(
+  const Country(
     code: 'MO',
     name: 'Macau',
   ),
-  Country(
+  const Country(
     code: 'MK',
     name: 'Macedonia',
   ),
-  Country(
+  const Country(
     code: 'MG',
     name: 'Madagascar',
   ),
-  Country(
+  const Country(
     code: 'MW',
     name: 'Malawi',
   ),
-  Country(
+  const Country(
     code: 'MY',
     name: 'Malaysia',
   ),
-  Country(
+  const Country(
     code: 'MV',
     name: 'Maldives',
   ),
-  Country(
+  const Country(
     code: 'ML',
     name: 'Mali',
   ),
-  Country(
+  const Country(
     code: 'MT',
     name: 'Malta',
   ),
-  Country(
+  const Country(
     code: 'MH',
     name: 'Marshall Islands',
   ),
-  Country(
+  const Country(
     code: 'MQ',
     name: 'Martinique',
   ),
-  Country(
+  const Country(
     code: 'MR',
     name: 'Mauritania',
   ),
-  Country(
+  const Country(
     code: 'MU',
     name: 'Mauritius',
   ),
-  Country(
+  const Country(
     code: 'YT',
     name: 'Mayotte',
   ),
-  Country(
+  const Country(
     code: 'MX',
     name: 'Mexico',
   ),
-  Country(
+  const Country(
     code: 'FM',
     name: 'Micronesia',
   ),
-  Country(
+  const Country(
     code: 'MD',
     name: 'Moldova',
   ),
-  Country(
+  const Country(
     code: 'MC',
     name: 'Monaco',
   ),
-  Country(
+  const Country(
     code: 'MN',
     name: 'Mongolia',
   ),
-  Country(
+  const Country(
     code: 'ME',
     name: 'Montenegro',
   ),
-  Country(
+  const Country(
     code: 'MS',
     name: 'Montserrat',
   ),
-  Country(
+  const Country(
     code: 'MA',
     name: 'Morocco',
   ),
-  Country(
+  const Country(
     code: 'MZ',
     name: 'Mozambique',
   ),
-  Country(
+  const Country(
     code: 'MM',
     name: 'Myanmar [Burma]',
   ),
-  Country(
+  const Country(
     code: 'NA',
     name: 'Namibia',
   ),
-  Country(
+  const Country(
     code: 'NR',
     name: 'Nauru',
   ),
-  Country(
+  const Country(
     code: 'NP',
     name: 'Nepal',
   ),
-  Country(
+  const Country(
     code: 'NL',
     name: 'Netherlands',
   ),
-  Country(
+  const Country(
     code: 'NC',
     name: 'New Caledonia',
   ),
-  Country(
+  const Country(
     code: 'NZ',
     name: 'New Zealand',
   ),
-  Country(
+  const Country(
     code: 'NI',
     name: 'Nicaragua',
   ),
-  Country(
+  const Country(
     code: 'NE',
     name: 'Niger',
   ),
-  Country(
+  const Country(
     code: 'NG',
     name: 'Nigeria',
   ),
-  Country(
+  const Country(
     code: 'NU',
     name: 'Niue',
   ),
-  Country(
+  const Country(
     code: 'NF',
     name: 'Norfolk Island',
   ),
-  Country(
+  const Country(
     code: 'KP',
     name: 'North Korea',
   ),
-  Country(
+  const Country(
     code: 'MP',
     name: 'Northern Mariana Islands',
   ),
-  Country(
+  const Country(
     code: 'NO',
     name: 'Norway',
   ),
-  Country(
+  const Country(
     code: 'OM',
     name: 'Oman',
   ),
-  Country(
+  const Country(
     code: 'PK',
     name: 'Pakistan',
   ),
-  Country(
+  const Country(
     code: 'PW',
     name: 'Palau',
   ),
-  Country(
+  const Country(
     code: 'PS',
     name: 'Palestinian Territories',
   ),
-  Country(
+  const Country(
     code: 'PA',
     name: 'Panama',
   ),
-  Country(
+  const Country(
     code: 'PG',
     name: 'Papua New Guinea',
   ),
-  Country(
+  const Country(
     code: 'PY',
     name: 'Paraguay',
   ),
-  Country(
+  const Country(
     code: 'PE',
     name: 'Peru',
   ),
-  Country(
+  const Country(
     code: 'PH',
     name: 'Philippines',
   ),
-  Country(
+  const Country(
     code: 'PL',
     name: 'Poland',
   ),
-  Country(
+  const Country(
     code: 'PT',
     name: 'Portugal',
   ),
-  Country(
+  const Country(
     code: 'PR',
     name: 'Puerto Rico',
   ),
-  Country(
+  const Country(
     code: 'QA',
     name: 'Qatar',
   ),
-  Country(
+  const Country(
     code: 'RE',
     name: 'Réunion',
   ),
-  Country(
+  const Country(
     code: 'RO',
     name: 'Romania',
   ),
-  Country(
+  const Country(
     code: 'RU',
     name: 'Russia',
   ),
-  Country(
+  const Country(
     code: 'RW',
     name: 'Rwanda',
   ),
-  Country(
+  const Country(
     code: 'BL',
     name: 'Saint Barthélemy',
   ),
-  Country(
+  const Country(
     code: 'SH',
     name: 'Saint Helena',
   ),
-  Country(
+  const Country(
     code: 'KN',
     name: 'St. Kitts',
   ),
-  Country(
+  const Country(
     code: 'LC',
     name: 'St. Lucia',
   ),
-  Country(
+  const Country(
     code: 'MF',
     name: 'Saint Martin',
   ),
-  Country(
+  const Country(
     code: 'PM',
     name: 'Saint Pierre and Miquelon',
   ),
-  Country(
+  const Country(
     code: 'VC',
     name: 'St. Vincent',
   ),
-  Country(
+  const Country(
     code: 'WS',
     name: 'Samoa',
   ),
-  Country(
+  const Country(
     code: 'SM',
     name: 'San Marino',
   ),
-  Country(
+  const Country(
     code: 'ST',
     name: 'São Tomé and Príncipe',
   ),
-  Country(
+  const Country(
     code: 'SA',
     name: 'Saudi Arabia',
   ),
-  Country(
+  const Country(
     code: 'SN',
     name: 'Senegal',
   ),
-  Country(
+  const Country(
     code: 'RS',
     name: 'Serbia',
   ),
-  Country(
+  const Country(
     code: 'SC',
     name: 'Seychelles',
   ),
-  Country(
+  const Country(
     code: 'SL',
     name: 'Sierra Leone',
   ),
-  Country(
+  const Country(
     code: 'SG',
     name: 'Singapore',
   ),
-  Country(
+  const Country(
     code: 'SX',
     name: 'Sint Maarten',
   ),
-  Country(
+  const Country(
     code: 'SK',
     name: 'Slovakia',
   ),
-  Country(
+  const Country(
     code: 'SI',
     name: 'Slovenia',
   ),
-  Country(
+  const Country(
     code: 'SB',
     name: 'Solomon Islands',
   ),
-  Country(
+  const Country(
     code: 'SO',
     name: 'Somalia',
   ),
-  Country(
+  const Country(
     code: 'ZA',
     name: 'South Africa',
   ),
-  Country(
+  const Country(
     code: 'GS',
     name: 'South Georgia and the South Sandwich Islands South Sandwich Islands',
   ),
-  Country(
+  const Country(
     code: 'KR',
     name: 'South Korea',
   ),
-  Country(
+  const Country(
     code: 'SS',
     name: 'South Sudan',
   ),
-  Country(
+  const Country(
     code: 'ES',
     name: 'Spain',
   ),
-  Country(
+  const Country(
     code: 'LK',
     name: 'Sri Lanka',
   ),
-  Country(
+  const Country(
     code: 'SD',
     name: 'Sudan',
   ),
-  Country(
+  const Country(
     code: 'SR',
     name: 'Suriname',
   ),
-  Country(
+  const Country(
     code: 'SJ',
     name: 'Svalbard and Jan Mayen',
   ),
-  Country(
+  const Country(
     code: 'SE',
     name: 'Sweden',
   ),
-  Country(
+  const Country(
     code: 'CH',
     name: 'Switzerland',
   ),
-  Country(
+  const Country(
     code: 'SY',
     name: 'Syria',
   ),
-  Country(
+  const Country(
     code: 'TW',
     name: 'Taiwan',
   ),
-  Country(
+  const Country(
     code: 'TJ',
     name: 'Tajikistan',
   ),
-  Country(
+  const Country(
     code: 'TZ',
     name: 'Tanzania',
   ),
-  Country(
+  const Country(
     code: 'TH',
     name: 'Thailand',
   ),
-  Country(
+  const Country(
     code: 'TG',
     name: 'Togo',
   ),
-  Country(
+  const Country(
     code: 'TK',
     name: 'Tokelau',
   ),
-  Country(
+  const Country(
     code: 'TO',
     name: 'Tonga',
   ),
-  Country(
+  const Country(
     code: 'TT',
     name: 'Trinidad/Tobago',
   ),
-  Country(
+  const Country(
     code: 'TN',
     name: 'Tunisia',
   ),
-  Country(
+  const Country(
     code: 'TR',
     name: 'Turkey',
   ),
-  Country(
+  const Country(
     code: 'TM',
     name: 'Turkmenistan',
   ),
-  Country(
+  const Country(
     code: 'TC',
     name: 'Turks and Caicos Islands',
   ),
-  Country(
+  const Country(
     code: 'TV',
     name: 'Tuvalu',
   ),
-  Country(
+  const Country(
     code: 'VI',
     name: 'U.S. Virgin Islands',
   ),
-  Country(
+  const Country(
     code: 'UG',
     name: 'Uganda',
   ),
-  Country(
+  const Country(
     code: 'UA',
     name: 'Ukraine',
   ),
-  Country(
+  const Country(
     code: 'AE',
     name: 'United Arab Emirates',
   ),
-  Country(
+  const Country(
     code: 'GB',
     name: 'United Kingdom',
   ),
-  Country(
+  const Country(
     code: 'US',
     name: 'United States',
   ),
-  Country(
+  const Country(
     code: 'UY',
     name: 'Uruguay',
   ),
-  Country(
+  const Country(
     code: 'UZ',
     name: 'Uzbekistan',
   ),
-  Country(
+  const Country(
     code: 'VU',
     name: 'Vanuatu',
   ),
-  Country(
+  const Country(
     code: 'VA',
     name: 'Vatican City',
   ),
-  Country(
+  const Country(
     code: 'VE',
     name: 'Venezuela',
   ),
-  Country(
+  const Country(
     code: 'VN',
     name: 'Vietnam',
   ),
-  Country(
+  const Country(
     code: 'WF',
     name: 'Wallis and Futuna',
   ),
-  Country(
+  const Country(
     code: 'EH',
     name: 'Western Sahara',
   ),
-  Country(
+  const Country(
     code: 'YE',
     name: 'Yemen',
   ),
-  Country(
+  const Country(
     code: 'ZM',
     name: 'Zambia',
   ),
-  Country(
+  const Country(
     code: 'ZW',
     name: 'Zimbabwe',
   )

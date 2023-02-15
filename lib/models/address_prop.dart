@@ -1,10 +1,13 @@
+import 'package:flutter/foundation.dart';
+
 import '../utils/string_utils.dart';
 
+@immutable
 class AddressProp {
   final String name;
   final String value;
 
-  AddressProp({
+   const AddressProp({
     required this.name,
     required this.value,
   });

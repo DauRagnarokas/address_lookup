@@ -49,7 +49,6 @@ class AddressForm extends StatefulWidget {
 }
 
 class AddressFormState extends State<AddressForm> {
-  final formKey = GlobalKey<FormState>();
   late final List<FieldProps> fieldsProps;
   final ValueNotifier<bool> isSubmitEnabled = ValueNotifier(false);
   late final FormGroup form;
