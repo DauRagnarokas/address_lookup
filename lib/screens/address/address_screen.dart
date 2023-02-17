@@ -79,7 +79,7 @@ class AddressFormState extends State<AddressForm> {
         formControl: FormControl<String>(value: '', validators: [
           Validators.required,
           Validators.pattern(
-            RegExp(r'^[^-]+?-[^-]+?-[^-]+?-[^-]+?$'),
+            RegExp(r'^[^-]+?-[^-]+?-[^-]+?$'),
           )
         ]),
       ),
