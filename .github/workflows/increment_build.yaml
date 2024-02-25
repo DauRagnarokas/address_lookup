@@ -21,7 +21,7 @@ jobs:
         patch=$(echo $current_version | cut -d'+' -f1 | cut -d'.' -f3)
         build=$(echo $current_version | cut -d'+' -f2)
         new_build=$((build + 1))
-        new_version="$major.$minor.$patch+$new_build"
+        new_version="$major.$minor.$patch-$new_build"
         sed -i "s/version:[[:space:]]*$current_version/version: $new_version/" pubspec.yaml
         echo "Version updated to $new_version"
         echo "::set-output name=new_version::$new_version"
@@ -40,4 +40,4 @@ jobs:
       run: |
         git add pubspec.yaml
         git commit -m "Incremented build number to ${{ steps.increment-version.outputs.new_version }}"
-        git push -u origin $new_branch
+        git push --set-upstream origin $new_branch
