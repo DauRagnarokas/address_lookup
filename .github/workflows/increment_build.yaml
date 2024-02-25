@@ -35,4 +35,4 @@ jobs:
       run: |
         git add pubspec.yaml
         git commit -m "Incremented build number to $new_version"
-        git push origin $new_branch
+        git push --set-upstream origin $new_branch
