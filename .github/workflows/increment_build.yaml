@@ -44,22 +44,3 @@ jobs:
     - name: Push Changes
       run: |
         git push origin $new_branch
-
-    - name: Create Pull Request
-      id: create-pr
-      uses: peter-evans/create-pull-request@v6
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.head_ref }}
-        title: "Version Bump to $new_version"
-        body: "This is an automated pull request to update the version number in pubspec.yaml."
-        labels: version-bump
-        commit-message: "Create PR for version bump to $new_version"
-
-    - name: Merge Pull Request
-      if: steps.create-pr.outputs.pull-request-number
-      run: |
-        pr_number=$(echo ${{ steps.create-pr.outputs.pull-request-number }})
-        gh pr merge $pr_number --auto --squash -R ${{ github.repository }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
