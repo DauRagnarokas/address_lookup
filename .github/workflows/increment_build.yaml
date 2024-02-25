@@ -13,24 +13,43 @@ jobs:
 
     - name: Increment Build Number
       run: |
-        # Extract current version from pubspec.yaml
         current_version=$(awk '/version:/ {print $2}' pubspec.yaml)
         major=$(echo $current_version | cut -d'.' -f1)
         minor=$(echo $current_version | cut -d'.' -f2)
         patch=$(echo $current_version | cut -d'+' -f1 | cut -d'.' -f3)
         build=$(echo $current_version | cut -d'+' -f2)
         new_build=$((build + 1))
-        # Update the version
         new_version="$major.$minor.$patch+$new_build"
         sed -i "s/version:[[:space:]]*$current_version/version: $new_version/" pubspec.yaml
         echo "Version updated to $new_version"
-        # Configure Git
+        echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+        new_branch="version_bump_$new_version"
+        echo "NEW_BRANCH=$new_branch" >> $GITHUB_ENV
+
+    - name: Configure Git
+      run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email 'action@github.com'
-        # Create new branch
-        new_branch="version_bump_$new_version"
-        git checkout -b $new_branch
-        # Commit and push changes
+
+    - name: Create New Branch and Push Changes
+      run: |
+        git checkout -b ${{ env.NEW_BRANCH }}
         git add pubspec.yaml
-        git commit -m "Incremented build number to $new_version"
-        git push origin $new_branch
+        git commit -m "Incremented build number to ${{ env.NEW_VERSION }}"
+        git push --set-upstream origin ${{ env.NEW_BRANCH }}
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ env.NEW_BRANCH }}
+        title: "Version Bump to ${{ env.NEW_VERSION }}"
+        body: "This is an automated pull request to update the version number in pubspec.yaml."
+        labels: version-bump
+        commit-message: "Create PR for version bump to ${{ env.NEW_VERSION }}"
+
+    - name: Merge Pull Request
+      run: |
+        gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash -R ${{ github.repository }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
