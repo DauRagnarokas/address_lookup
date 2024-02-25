@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MainTheme {
-  MainTheme._();
+  const MainTheme._();
 
   static const MaterialColor skinColor = Colors.deepPurple;
   static const Color seedColor = Color.fromARGB(255, 67, 213, 37);

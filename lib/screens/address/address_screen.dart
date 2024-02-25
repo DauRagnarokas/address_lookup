@@ -78,9 +78,7 @@ class AddressFormState extends State<AddressForm> {
         label: 'Street address (subarea - block - house)*',
         formControl: FormControl<String>(value: '', validators: [
           Validators.required,
-          Validators.pattern(
-            RegExp(r'^[^-]+?-[^-]+?-[^-]+?$'),
-          )
+          Validators.pattern(RegExp(r'^[^-]+?-[^-]+?-[^-]+?$'))
         ]),
       ),
       FieldProps(
