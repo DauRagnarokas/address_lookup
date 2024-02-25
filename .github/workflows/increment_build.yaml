@@ -26,21 +26,13 @@ jobs:
         new_branch="version_bump_$new_version"
         echo "NEW_BRANCH=$new_branch" >> $GITHUB_ENV
 
-    - name: Get Default Branch
-      id: get-default-branch
-      run: |
-        default_branch=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        https://api.github.com/repos/${{ github.repository }} | jq -r '.default_branch')
-        echo "Default branch is $default_branch"
-        echo "DEFAULT_BRANCH=$default_branch" >> $GITHUB_ENV
-
     - name: Create Pull Request
       id: create-pr
       uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.head_ref }}
-        base: ${{ env.DEFAULT_BRANCH }}  # Use the dynamically determined default branch
+        base: ${{ github.event.repository.default_branch }}
         title: "Version Bump to $new_version"
         body: "This is an automated pull request to update the version number in pubspec.yaml."
         labels: version-bump
