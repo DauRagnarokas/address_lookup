@@ -13,18 +13,7 @@ jobs:
 
     - name: Increment Build Number
       run: |
-        # Extract current version from pubspec.yaml
-        current_version=$(awk '/version:/ {print $2}' pubspec.yaml)
-        major=$(echo $current_version | cut -d'.' -f1)
-        minor=$(echo $current_version | cut -d'.' -f2)
-        patch=$(echo $current_version | cut -d'+' -f1 | cut -d'.' -f3)
-        build=$(echo $current_version | cut -d'+' -f2)
-        new_build=$((build + 1))
-
-        # Update the version
-        new_version="$major.$minor.$patch+$new_build"
-        sed -i "s/version:[[:space:]]*$current_version/version: $new_version/" pubspec.yaml
-        echo "Version updated to $new_version"
+        # [Your existing script for incrementing build number]
 
     - name: Configure Git
       run: |
@@ -41,7 +30,12 @@ jobs:
         git add pubspec.yaml
         git commit -m "Incremented build number to $new_version"
 
+    - name: Push Changes
+      run: |
+        git push origin $new_branch
+
     - name: Create Pull Request
+      id: create-pr
       uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -50,6 +44,7 @@ jobs:
         body: "This is an automated pull request to update the version number in pubspec.yaml."
         labels: version-bump
         commit-message: "Create PR for version bump to $new_version"
+
     - name: Merge Pull Request
       if: steps.create-pr.outputs.pull-request-number
       run: |
