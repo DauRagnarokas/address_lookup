@@ -1,12 +1,15 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutterassignment/utils/world_countries.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/country.dart';
 
-final countriesProvider = Provider((_) => worldCountries);
+part 'countries_providers.g.dart';
 
-final filteredCountriesProvider =
-    Provider.family<List<Country>, String>((ref, pattern) {
+@riverpod
+List<Country> countries(_)  => worldCountries;
+
+@riverpod
+List<Country> filteredCountries(FilteredCountriesRef ref, {required String pattern}) {
   final countries = ref.read(countriesProvider);
   final String patternLowerCase = pattern.toLowerCase();
   final filteredCountries = countries.where(
@@ -16,18 +19,18 @@ final filteredCountriesProvider =
     },
   ).toList();
   return filteredCountries;
-});
+}
 
-final filteredCountriesNamesProvider =
-    Provider.family<List<String>, String>((ref, pattern) {
-  final countries = ref.read(filteredCountriesProvider(pattern));
+@riverpod
+List<String> filteredCountriesNames(FilteredCountriesNamesRef ref, {required String pattern}) {
+  final List<Country> countries = ref.read(filteredCountriesProvider(pattern: pattern));
   final names = [for (final item in countries) item.name];
   return names;
-});
+}
 
-final getCountryByName =
-    Provider.family<Country, String>((ref, pattern) {
+@riverpod
+Country countryByName(CountryByNameRef ref, {required String pattern}) {
   final countries = ref.read(countriesProvider);
   final country = countries.firstWhere((country) => country.name == pattern);
   return country;
-});
+}

@@ -22,12 +22,12 @@ class CountryField extends ConsumerWidget {
         ),
       ),
       suggestionsCallback: (pattern) async {
-        return ref.read(filteredCountriesNamesProvider(pattern));
+        return ref.read(filteredCountriesNamesProvider(pattern: pattern));
       },
       itemBuilder: (context, suggestion) {
         return ListTile(
           leading: Text(
-            ref.read(getCountryByName(suggestion)).flag,
+            ref.read(countryByNameProvider(pattern: suggestion)).flag,
           ),
           title: Text(suggestion),
         );
