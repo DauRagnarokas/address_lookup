@@ -12,8 +12,9 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Increment Build Number
+      id: increment-version
       run: |
-        # Extract current version from pubspec.yaml
+        # Extract and increment version
         current_version=$(awk '/version:/ {print $2}' pubspec.yaml)
         major=$(echo $current_version | cut -d'.' -f1)
         minor=$(echo $current_version | cut -d'.' -f2)
@@ -23,6 +24,7 @@ jobs:
         new_version="$major.$minor.$patch+$new_build"
         sed -i "s/version:[[:space:]]*$current_version/version: $new_version/" pubspec.yaml
         echo "Version updated to $new_version"
+        echo "::set-output name=new_version::$new_version"
 
     - name: Configure Git
       run: |
@@ -31,11 +33,11 @@ jobs:
 
     - name: Create New Branch
       run: |
-        new_branch="version_bump_$new_version"
+        new_branch="version_bump_${{ steps.increment-version.outputs.new_version }}"
         git checkout -b $new_branch
 
     - name: Commit and Push Changes
       run: |
         git add pubspec.yaml
-        git commit -m "Incremented build number to $new_version"
-        git push origin $new_branch
+        git commit -m "Incremented build number to ${{ steps.increment-version.outputs.new_version }}"
+        git push --set-upstream origin $new_branch
