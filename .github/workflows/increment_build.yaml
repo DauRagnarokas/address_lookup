@@ -30,9 +30,7 @@ jobs:
         # Create new branch
         new_branch="version_bump_$new_version"
         git checkout -b $new_branch
-
-    - name: Commit and Push Changes
-      run: |
+        # Commit and push changes
         git add pubspec.yaml
         git commit -m "Incremented build number to $new_version"
-        git push --set-upstream origin $new_branch
+        git push origin $new_branch
