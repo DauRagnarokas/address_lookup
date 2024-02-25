@@ -13,6 +13,7 @@ jobs:
 
     - name: Increment Build Number
       run: |
+        # Extract current version from pubspec.yaml
         current_version=$(awk '/version:/ {print $2}' pubspec.yaml)
         major=$(echo $current_version | cut -d'.' -f1)
         minor=$(echo $current_version | cut -d'.' -f2)
@@ -22,16 +23,29 @@ jobs:
         new_version="$major.$minor.$patch+$new_build"
         sed -i "s/version:[[:space:]]*$current_version/version: $new_version/" pubspec.yaml
         echo "Version updated to $new_version"
-        echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+
+    - name: Configure Git
+      run: |
+        git config --global user.name 'GitHub Action'
+        git config --global user.email 'action@github.com'
+
+    - name: Create New Branch
+      run: |
         new_branch="version_bump_$new_version"
-        echo "NEW_BRANCH=$new_branch" >> $GITHUB_ENV
+        git checkout -b $new_branch
+
+    - name: Commit and Push Changes
+      run: |
+        git add pubspec.yaml
+        git commit -m "Incremented build number to $new_version"
+        git push --set-upstream origin $new_branch
 
     - name: Create Pull Request
       id: create-pr
       uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.head_ref }}
+        branch: $new_branch
         base: ${{ github.event.repository.default_branch }}
         title: "Version Bump to $new_version"
         body: "This is an automated pull request to update the version number in pubspec.yaml."
