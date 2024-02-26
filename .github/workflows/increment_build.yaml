@@ -21,7 +21,7 @@ jobs:
         build=$(echo $current_version | cut -d'+' -f2)
         new_build=$((build + 1))
         # Update the version
-        new_version="$major.$minor.$patch-$new_build"
+        new_version="$major.$minor.$patch+$new_build"
         sed -i "s/version:[[:space:]]*$current_version/version: $new_version/" pubspec.yaml
         echo "Version updated to $new_version"
         # Configure Git
@@ -41,7 +41,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         pr_title: "Increment build number to ${{ steps.increment-version.outputs.new_version }}"
         pr_body: "Automated PR to update build number to ${{ steps.increment-version.outputs.new_version }}"
-        branch: ${{ steps.increment.version.outputs.new_branch }}
+        branch: ${{ steps.increment-version.outputs.new_branch }}
 
 #    - name: Merge Pull Request
 #      uses: pascalgn/automerge-action@v0.16.2
