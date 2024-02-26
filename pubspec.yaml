@@ -1,9 +1,9 @@
 name: flutterassignment
 description: A flutter assignment for gigabank
 
-publish_to: 'none' 
+publish_to: 'none'
 
-version: 1.0.0-7
+version: 1.0.0+7
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
