@@ -12,7 +12,6 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Increment Build Number
-      id: increment-version
       run: |
         # Extract and increment version
         current_version=$(awk '/version:/ {print $2}' pubspec.yaml)
@@ -35,3 +34,20 @@ jobs:
         git add pubspec.yaml
         git commit -m "Incremented build number to $new_version"
         git push origin $new_branch
+
+    - name: Create Pull Request
+      uses: repo-sync/pull-request@v2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_title: "Increment build number to ${{ steps.increment-version.outputs.new_version }}"
+        pr_body: "Automated PR to update build number to ${{ steps.increment-version.outputs.new_version }}"
+        branch: ${{ steps.increment-version.outputs.new_branch }}
+
+    - name: Merge Pull Request
+      uses: pascalgn/automerge-action@v0.13.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MERGE_LABELS: "automerge"
+        MERGE_METHOD: "squash"
+        MERGE_COMMIT_MESSAGE: "pull-request-title"
+        MERGE_FILTER_AUTHOR: "github-actions[bot]"
