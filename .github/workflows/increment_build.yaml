@@ -52,6 +52,9 @@ jobs:
           git checkout -b ${{ env.BRANCH_NAME }}
           git push --set-upstream origin ${{ env.BRANCH_NAME }}
 
+      - name: Log default branch name
+        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
+
       # Create a pull request using the dynamically fetched default branch as base
       - name: Create Pull Request
         id: create_pr
@@ -64,7 +67,7 @@ jobs:
               repo: context.repo.repo,
               title: '${{ env.BRANCH_NAME }}',
               head: '${{ env.BRANCH_NAME }}',
-              base: '${{ steps.repo_info.outputs.result }}', 
+              base: 'dev', 
               body: 'This PR increments the app version build number.',
               draft: false,
             });
