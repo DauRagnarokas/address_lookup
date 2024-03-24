@@ -16,45 +16,30 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "<>"
 
-      # Generate a unique branch name with timestamp
-      - name: Generate unique branch name
-        run: echo "BRANCH_NAME=increment-version-$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-
-      # Create new branch with the unique name
-      - name: Create new branch
+      # Extract and increment the version build number in pubspec.yaml, and form the branch name
+      - name: Increment version build number and form branch name
+        id: versioning
         run: |
-          git branch ${{ env.BRANCH_NAME }}
-          git checkout ${{ env.BRANCH_NAME }}
-
-      # Increment version build number in pubspec.yaml
-      - name: Increment version build number
-        run: |
-          # Extract current version and build number
           VERSION_BUILD=$(grep 'version:' pubspec.yaml | sed 's/version: //; s/+/\ /g')
           VERSION=$(echo $VERSION_BUILD | cut -d' ' -f1)
           BUILD=$(echo $VERSION_BUILD | cut -d' ' -f2)
-          
-          # Increment build number
           NEW_BUILD=$((BUILD + 1))
-          
-          # Replace old version with new version in pubspec.yaml
+          NEW_VERSION="$VERSION+$NEW_BUILD"
+          BRANCH_NAME="version_bump_${VERSION}-${NEW_BUILD}"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           sed -i "s/version: $VERSION+$BUILD/version: $VERSION+$NEW_BUILD/" pubspec.yaml
-          
-          # Check if pubspec.yaml was modified
-          if git diff --exit-code --quiet pubspec.yaml; then
-            echo "No changes in pubspec.yaml"
-            exit 78 # Exiting with specific code to avoid failing the step
-          else
-            git add pubspec.yaml
-            git commit -m "Increment version build number to $VERSION+$NEW_BUILD"
-            git push --set-upstream origin ${{ env.BRANCH_NAME }}
-          fi
+          git add pubspec.yaml
+          git commit -m "Increment version build number to $NEW_VERSION"
+          echo "::set-output name=branch_name::$BRANCH_NAME"
 
       # Push the new branch
       - name: Push new branch
-        run: git push --set-upstream origin ${{ env.BRANCH_NAME }}
+        run: |
+          git checkout -b ${{ env.BRANCH_NAME }}
+          git push --set-upstream origin ${{ env.BRANCH_NAME }}
 
-      # Create a pull request and get its number for merging
+      # Create a pull request
       - name: Create Pull Request
         id: create_pr
         uses: actions/github-script@v6
@@ -64,20 +49,16 @@ jobs:
             const response = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: 'Update to Dummy File', // Customize your PR title
-              head: process.env.BRANCH_NAME,
-              base: 'main', // The name of the branch you want the changes pulled into
-              body: 'This PR adds a new line to the dummy file.', // Customize your PR description
+              title: '${{ env.BRANCH_NAME }}',
+              head: '${{ env.BRANCH_NAME }}',
+              base: 'main',
+              body: 'This PR increments the app version build number.',
               draft: false,
             });
-
             if (response.status !== 201) {
               throw new Error('Failed to create pull request');
             }
-
             console.log('Pull request created:', response.data.html_url);
-
-            // Output the PR number for later steps
             return response.data.number;
 
       # Automatically merge the PR
@@ -90,6 +71,6 @@ jobs:
             await github.rest.pulls.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: ${{ steps.create_pr.outputs.result }}, // Use the PR number from the previous step
-              merge_method: 'merge', // Can be merge, squash or rebase
+              pull_number: ${{ steps.create_pr.outputs.result }},
+              merge_method: 'merge',
             });
