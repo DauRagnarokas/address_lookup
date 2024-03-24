@@ -29,6 +29,9 @@ jobs:
             });
             return repo.data.default_branch;
 
+      - name: Print default branch name
+        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
+
       # Increment version build number in pubspec.yaml and form branch name
       - name: Increment version build number and form branch name
         run: |
@@ -44,11 +47,17 @@ jobs:
           git add pubspec.yaml
           git commit -m "Increment version build number to $NEW_VERSION"
 
+      - name: Print default branch name2
+        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
+
       # Push the new branch
       - name: Push new branch
         run: |
           git checkout -b ${{ env.BRANCH_NAME }}
           git push --set-upstream origin ${{ env.BRANCH_NAME }}
+
+      - name: Print default branch name3
+        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
 
       # Create a pull request
       - name: Create Pull Request
@@ -72,6 +81,9 @@ jobs:
             console.log('Pull request created:', response.data.html_url);
             return response.data.number;
 
+      - name: Print default branch name4
+        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
+
       # Automatically merge the PR
       - name: Auto Merge PR
         if: steps.create_pr.outputs.result
@@ -85,3 +97,6 @@ jobs:
               pull_number: ${{ steps.create_pr.outputs.result }},
               merge_method: 'merge', # Or 'squash', 'rebase'
             });
+
+      - name: Print default branch name5
+        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
