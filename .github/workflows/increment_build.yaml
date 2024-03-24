@@ -75,7 +75,7 @@ jobs:
               repo: context.repo.repo,
               title: '${{ env.BRANCH_NAME }}',
               head: '${{ env.BRANCH_NAME }}',
-              base: 'dev',
+              base: 'main',
               body: 'This PR increments the app version build number.',
               draft: false,
             });
