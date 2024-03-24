@@ -43,7 +43,6 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const github = require('@actions/github');
             const createPullRequest = async () => {
               const response = await github.rest.pulls.create({
                 owner: context.repo.owner,
