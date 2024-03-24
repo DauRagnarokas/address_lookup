@@ -4,55 +4,83 @@ on:
   workflow_dispatch:
 
 jobs:
-  version-bump:
+  increment_version_build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v2
 
-    - name: Increment Build Number
-      id: increment-version # Add an ID here to reference its outputs later
-      run: |
-        # Extract and increment version
-        current_version=$(awk '/version:/ {print $2}' pubspec.yaml)
-        major=$(echo $current_version | cut -d'.' -f1)
-        minor=$(echo $current_version | cut -d'.' -f2)
-        patch=$(echo $current_version | cut -d'+' -f1 | cut -d'.' -f3)
-        build=$(echo $current_version | cut -d'+' -f2)
-        new_build=$((build + 1))
-        # Update the version
-        new_version="$major.$minor.$patch+$new_build"
-        sed -i "s/version:[[:space:]]*$current_version/version: $new_version/" pubspec.yaml
-        echo "Version updated to $new_version"
-        # Configure Git
-        git config --global user.name 'GitHub Action'
-        git config --global user.email 'action@github.com'
-        # Create new branch
-        new_branch="version_bump_$new_version"
-        git checkout -b $new_branch
-        # Commit and push changes
-        git add pubspec.yaml
-        git commit -m "Incremented build number to $new_version"
-        git push origin $new_branch
-        # Use ::set-output syntax to make new_version and new_branch available for other jobs
-        echo "new_version=$new_version" >> $GITHUB_ENV
-        echo "new_branch=$new_branch" >> $GITHUB_ENV
+      # Configure git user
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "<>"
 
-    - name: Create Pull Request
-      uses: repo-sync/pull-request@v2
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        pr_title: "Increment build number to ${{ env.new_version }}"
-        pr_body: "Automated PR to update build number to ${{ env.new_version }}"
-        branch: ${{ env.new_branch }}
+      # Fetch the default branch name
+      - name: Fetch default branch name
+        id: repo_info
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const repo = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            return repo.data.default_branch;
 
-# Uncomment and use this part if you want to automatically merge the PR when conditions are met
-#    - name: Merge Pull Request
-#      uses: pascalgn/automerge-action@v0.16.2
-#      with:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        MERGE_LABELS: "automerge"
-#        MERGE_METHOD: "squash"
-#        MERGE_COMMIT_MESSAGE: "pull-request-title"
-#        MERGE_FILTER_AUTHOR: "github-actions[bot]"
+      # Increment version build number in pubspec.yaml and form branch name
+      - name: Increment version build number and form branch name
+        run: |
+          VERSION_BUILD=$(grep 'version:' pubspec.yaml | sed 's/version: //; s/+/\ /g')
+          VERSION=$(echo $VERSION_BUILD | cut -d' ' -f1)
+          BUILD=$(echo $VERSION_BUILD | cut -d' ' -f2)
+          NEW_BUILD=$((BUILD + 1))
+          NEW_VERSION="$VERSION+$NEW_BUILD"
+          BRANCH_NAME="version_bump_${VERSION}-${NEW_BUILD}"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          sed -i "s/version: $VERSION+$BUILD/version: $VERSION+$NEW_BUILD/" pubspec.yaml
+          git add pubspec.yaml
+          git commit -m "Increment version build number to $NEW_VERSION"
+
+      # Push the new branch
+      - name: Push new branch
+        run: |
+          git checkout -b ${{ env.BRANCH_NAME }}
+          git push --set-upstream origin ${{ env.BRANCH_NAME }}
+
+      # Create a pull request
+      - name: Create Pull Request
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const response = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '${{ env.BRANCH_NAME }}',
+              head: '${{ env.BRANCH_NAME }}',
+              base: '${{ steps.repo_info.outputs.result }}', # Use the fetched default branch
+              body: 'This PR increments the app version build number.',
+              draft: false,
+            });
+            if (response.status !== 201) {
+              throw new Error('Failed to create pull request');
+            }
+            console.log('Pull request created:', response.data.html_url);
+            return response.data.number;
+
+      # Automatically merge the PR
+      - name: Auto Merge PR
+        if: steps.create_pr.outputs.result
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: ${{ steps.create_pr.outputs.result }},
+              merge_method: 'merge', # Or 'squash', 'rebase'
+            });
