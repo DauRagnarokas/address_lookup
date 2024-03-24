@@ -47,17 +47,21 @@ jobs:
           git add pubspec.yaml
           git commit -m "Increment version build number to $NEW_VERSION"
 
-      - name: Print default branch name2
-        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
-
-      # Push the new branch
+      # Push the new branch, handling potential existing branch scenario
       - name: Push new branch
         run: |
+          # Check if the branch already exists remotely
+          if git ls-remote --heads origin ${{ env.BRANCH_NAME }} | grep -q ${{ env.BRANCH_NAME }}; then
+            echo "Branch ${{ env.BRANCH_NAME }} already exists on remote. Pulling changes..."
+            git pull origin ${{ env.BRANCH_NAME }}
+            # Handle the merge according to your project's needs. This might include resolving conflicts.
+            # For a simple overwrite (caution: this discards remote changes!), you could use:
+            # git reset --hard origin/${{ env.BRANCH_NAME }}
+          else
+            echo "Branch ${{ env.BRANCH_NAME }} does not exist on remote. Creating it..."
+          fi
           git checkout -b ${{ env.BRANCH_NAME }}
           git push --set-upstream origin ${{ env.BRANCH_NAME }}
-
-      - name: Print default branch name3
-        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
 
       # Create a pull request
       - name: Create Pull Request
@@ -81,9 +85,6 @@ jobs:
             console.log('Pull request created:', response.data.html_url);
             return response.data.number;
 
-      - name: Print default branch name4
-        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
-
       # Automatically merge the PR
       - name: Auto Merge PR
         if: steps.create_pr.outputs.result
@@ -97,6 +98,3 @@ jobs:
               pull_number: ${{ steps.create_pr.outputs.result }},
               merge_method: 'merge', # Or 'squash', 'rebase'
             });
-
-      - name: Print default branch name5
-        run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
