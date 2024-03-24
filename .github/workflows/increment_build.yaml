@@ -55,12 +55,12 @@ jobs:
       - name: Log default branch name
         run: echo "Default branch is ${{ steps.repo_info.outputs.result }}"
 
-      # Create a pull request using the dynamically fetched default branch as base
+      # Create a pull request
       - name: Create Pull Request
         id: create_pr
         uses: actions/github-script@v6
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.ADMIN_GITHUB_TOKEN}}
           script: |
             const baseBranch = '${{ steps.repo_info.outputs.result }}'.replace(/^"|"$/g, ''); // Attempt to strip quotes
             const response = await github.rest.pulls.create({
@@ -78,13 +78,12 @@ jobs:
             console.log('Pull request created:', response.data.html_url);
             return response.data.number;
 
-
-      # Automatically merge the PR
+      # Automatically merge the PR using the admin token
       - name: Auto Merge PR
         if: steps.create_pr.outputs.result
         uses: actions/github-script@v6
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.ADMIN_GITHUB_TOKEN}}
           script: |
             await github.rest.pulls.merge({
               owner: context.repo.owner,
