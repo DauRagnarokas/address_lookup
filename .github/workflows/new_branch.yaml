@@ -1,10 +1,10 @@
-name: Modify File, Commit, and PR with Unique Branch Name
+name: Modify File, Commit, PR, and Auto Merge
 
 on:
   workflow_dispatch:
 
 jobs:
-  modify_file_commit_and_create_pr:
+  modify_file_commit_create_pr_and_merge:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,28 +37,42 @@ jobs:
       - name: Push new branch
         run: git push --set-upstream origin ${{ env.BRANCH_NAME }}
 
-      # Create a pull request
+      # Create a pull request and get its number for merging
       - name: Create Pull Request
+        id: create_pr
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const createPullRequest = async () => {
-              const response = await github.rest.pulls.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: 'Update to Dummy File', // Customize your PR title
-                head: process.env.BRANCH_NAME,
-                base: 'main', // The name of the branch you want the changes pulled into
-                body: 'This PR adds a new line to the dummy file.', // Customize your PR description
-                draft: false,
-              });
+            const response = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Update to Dummy File', // Customize your PR title
+              head: process.env.BRANCH_NAME,
+              base: 'main', // The name of the branch you want the changes pulled into
+              body: 'This PR adds a new line to the dummy file.', // Customize your PR description
+              draft: false,
+            });
 
-              if (response.status !== 201) {
-                throw new Error('Failed to create pull request');
-              }
+            if (response.status !== 201) {
+              throw new Error('Failed to create pull request');
+            }
 
-              console.log('Pull request created:', response.data.html_url);
-            };
+            console.log('Pull request created:', response.data.html_url);
 
-            createPullRequest();
+            // Output the PR number for later steps
+            return response.data.number;
+
+      # Automatically merge the PR
+      - name: Auto Merge PR
+        if: steps.create_pr.outputs.result
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: ${{ steps.create_pr.outputs.result }}, // Use the PR number from the previous step
+              merge_method: 'merge', // Can be merge, squash or rebase
+            });
