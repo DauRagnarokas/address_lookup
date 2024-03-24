@@ -62,12 +62,13 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const baseBranch = '${{ steps.repo_info.outputs.result }}'.replace(/^"|"$/g, ''); // Attempt to strip quotes
             const response = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: '${{ env.BRANCH_NAME }}',
               head: '${{ env.BRANCH_NAME }}',
-              base: 'dev', 
+              base: baseBranch,
               body: 'This PR increments the app version build number.',
               draft: false,
             });
@@ -76,6 +77,7 @@ jobs:
             }
             console.log('Pull request created:', response.data.html_url);
             return response.data.number;
+
 
       # Automatically merge the PR
       - name: Auto Merge PR
