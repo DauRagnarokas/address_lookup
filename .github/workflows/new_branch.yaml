@@ -47,6 +47,7 @@ jobs:
           fi
 
       # Create a pull request
+      # Create a pull request and capture the PR number
       - name: Create Pull Request
         id: create_pr
         uses: actions/github-script@v6
@@ -68,7 +69,7 @@ jobs:
             }
 
             console.log('Pull request created:', response.data.html_url);
-            return response.data.number; # Return the PR number for the next step
+            return response.data.number; // Correctly return the PR number for the next step
 
       # Automatically merge the PR
       - name: Auto Merge PR
