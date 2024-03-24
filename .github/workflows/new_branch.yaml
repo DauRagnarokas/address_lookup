@@ -1,15 +1,13 @@
-name: Manually Triggered Branch Creation and Merge
+name: Modify File, Commit, and PR with Unique Branch Name
 
 on:
-  # Allow manual trigger from GitHub UI
   workflow_dispatch:
 
 jobs:
-  create_and_merge_branch:
+  modify_file_commit_and_create_pr:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       # Configure git user
@@ -18,27 +16,50 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "<>"
 
-      # Create new branch
+      # Generate a unique branch name with timestamp
+      - name: Generate unique branch name
+        run: echo "BRANCH_NAME=update-dummy-$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+
+      # Create new branch with the unique name
       - name: Create new branch
         run: |
-          git branch new-branch
-          git checkout new-branch
+          git branch ${{ env.BRANCH_NAME }}
+          git checkout ${{ env.BRANCH_NAME }}
 
-      # Add a dummy file
-      - name: Add dummy file
+      # Modify dummy.txt file by adding a new line
+      - name: Add new line to dummy file
         run: |
-          echo "This is a dummy file" > lib/dummy.txt
+          echo "New line added on $(date)" >> lib/dummy.txt
           git add lib/dummy.txt
-          git commit -m "Add dummy file"
+          git commit -m "Add new line to dummy file"
 
       # Push the new branch
       - name: Push new branch
-        run: |
-          git push --set-upstream origin new-branch
+        run: git push --set-upstream origin ${{ env.BRANCH_NAME }}
 
-      # Merge new branch into main
-      - name: Merge new branch into main
-        run: |
-          git checkout main
-          git merge new-branch
-          git push origin main
+      # Create a pull request
+      - name: Create Pull Request
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const github = require('@actions/github');
+            const createPullRequest = async () => {
+              const response = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Update to Dummy File', // Customize your PR title
+                head: process.env.BRANCH_NAME,
+                base: 'main', // The name of the branch you want the changes pulled into
+                body: 'This PR adds a new line to the dummy file.', // Customize your PR description
+                draft: false,
+              });
+
+              if (response.status !== 201) {
+                throw new Error('Failed to create pull request');
+              }
+
+              console.log('Pull request created:', response.data.html_url);
+            };
+
+            createPullRequest();
