@@ -1,10 +1,10 @@
-name: Modify File, Commit, PR, and Auto Merge
+name: Increment App Version Build
 
 on:
   workflow_dispatch:
 
 jobs:
-  modify_file_commit_create_pr_and_merge:
+  increment_version_build:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,7 @@ jobs:
 
       # Generate a unique branch name with timestamp
       - name: Generate unique branch name
-        run: echo "BRANCH_NAME=update-dummy-$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=increment-version-$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
       # Create new branch with the unique name
       - name: Create new branch
@@ -26,20 +26,32 @@ jobs:
           git branch ${{ env.BRANCH_NAME }}
           git checkout ${{ env.BRANCH_NAME }}
 
-      # Modify dummy.txt file by adding a new line
-      - name: Add new line to dummy file
+      # Increment version build number in pubspec.yaml
+      - name: Increment version build number
         run: |
-          echo "New line added on $(date)" >> lib/dummy.txt
-          git add lib/dummy.txt
-          git commit -m "Add new line to dummy file"
+          # Extract current version and build number
+          VERSION_BUILD=$(grep 'version:' pubspec.yaml | sed 's/version: //; s/+/\ /g')
+          VERSION=$(echo $VERSION_BUILD | cut -d' ' -f1)
+          BUILD=$(echo $VERSION_BUILD | cut -d' ' -f2)
+          
+          # Increment build number
+          NEW_BUILD=$((BUILD + 1))
+          
+          # Replace old version with new version in pubspec.yaml
+          sed -i "s/version: $VERSION+$BUILD/version: $VERSION+$NEW_BUILD/" pubspec.yaml
+          
+          # Check if pubspec.yaml was modified
+          if git diff --exit-code --quiet pubspec.yaml; then
+            echo "No changes in pubspec.yaml"
+            exit 78 # Exiting with specific code to avoid failing the step
+          else
+            git add pubspec.yaml
+            git commit -m "Increment version build number to $VERSION+$NEW_BUILD"
+            git push --set-upstream origin ${{ env.BRANCH_NAME }}
+          fi
 
-      # Push the new branch
-      - name: Push new branch
-        run: git push --set-upstream origin ${{ env.BRANCH_NAME }}
-
-      # Create a pull request and get its number for merging
+      # Create a pull request
       - name: Create Pull Request
-        id: create_pr
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -47,10 +59,10 @@ jobs:
             const response = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: 'Update to Dummy File', // Customize your PR title
+              title: 'Increment App Version Build Number',
               head: process.env.BRANCH_NAME,
-              base: 'main', // The name of the branch you want the changes pulled into
-              body: 'This PR adds a new line to the dummy file.', // Customize your PR description
+              base: 'main', // Adjust this if your default branch is named differently
+              body: 'This PR increments the build number in pubspec.yaml.',
               draft: false,
             });
 
@@ -59,20 +71,3 @@ jobs:
             }
 
             console.log('Pull request created:', response.data.html_url);
-
-            // Output the PR number for later steps
-            return response.data.number;
-
-      # Automatically merge the PR
-      - name: Auto Merge PR
-        if: steps.create_pr.outputs.result
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            await github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: ${{ steps.create_pr.outputs.result }}, // Use the PR number from the previous step
-              merge_method: 'merge', // Can be merge, squash or rebase
-            });
