@@ -27,7 +27,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
-            return repo.data.default_branch;
+            core.setOutput('default_branch', repo.data.default_branch);
 
       # Increment version build number in pubspec.yaml and form branch name
       - name: Increment version build number and form branch name
@@ -52,6 +52,7 @@ jobs:
 
       # Create a pull request
       - name: Create Pull Request
+        id: create_pr
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -61,7 +62,7 @@ jobs:
               repo: context.repo.repo,
               title: '${{ env.BRANCH_NAME }}',
               head: '${{ env.BRANCH_NAME }}',
-              base: '${{ steps.repo_info.outputs.result }}', # Use the fetched default branch
+              base: '${{ steps.repo_info.outputs.default_branch }}', # Correctly use the fetched default branch
               body: 'This PR increments the app version build number.',
               draft: false,
             });
