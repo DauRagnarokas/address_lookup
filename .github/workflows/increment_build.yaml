@@ -16,7 +16,20 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "<>"
 
-      # Extract and increment the version build number in pubspec.yaml, and form the branch name
+      # Fetch the default branch name
+      - name: Fetch default branch name
+        id: repo_info
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const repo = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            return repo.data.default_branch;
+
+      # Increment version build number in pubspec.yaml and form branch name
       - name: Increment version build number and form branch name
         id: versioning
         run: |
@@ -39,7 +52,7 @@ jobs:
           git checkout -b ${{ env.BRANCH_NAME }}
           git push --set-upstream origin ${{ env.BRANCH_NAME }}
 
-      # Create a pull request
+      # Create a pull request using the dynamically fetched default branch as base
       - name: Create Pull Request
         id: create_pr
         uses: actions/github-script@v6
@@ -51,7 +64,7 @@ jobs:
               repo: context.repo.repo,
               title: '${{ env.BRANCH_NAME }}',
               head: '${{ env.BRANCH_NAME }}',
-              base: 'dev',
+              base: '${{ steps.repo_info.outputs.result }}', # Use the fetched default branch
               body: 'This PR increments the app version build number.',
               draft: false,
             });
